@@ -7,8 +7,10 @@ To run the Chart Library locally, follow these steps:
 1. Clone the repository:
 
    ```console
-   git clone [https://github.com/binshahed/chart-app.git]
-   cd chart-app
+   git clone https://github.com/binshahed/chart-app.git
+   ```
+   ```console
+     cd chart-app
    ```
    
 2. Install dependencies:
