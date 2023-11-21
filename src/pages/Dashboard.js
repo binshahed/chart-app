@@ -1,45 +1,85 @@
 import { useState } from "react";
 import BarChart from "../components/BarChar";
-import { UserData } from "./userData";
 import LineChart from "../components/LineChart";
 import PieChart from "../components/PieChart";
 import ScatterChart from "../components/ScatterChart";
+import ChartShowForm from "../components/ChartShowForm";
+import DeleteForm from "../components/DeleteForm";
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState({
-    labels: UserData.map((data) => data.year),
-    datasets: [
-      {
-        label: "Users Gained",
-        data: UserData.map((data) => data.userGain),
-        backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
-        borderColor: "black",
-        borderWidth: 2,
-      },
-    ],
-  });
+  // states
+  const [selectedCharts, setSelectedChart] = useState([]);
+  const [deleteItem, setDeleteItem] = useState("");
+
+  // chart add function
+  const onSubmit = (data) => {
+    const chartExist = selectedCharts.find(
+      (ct) => ct.chartName === data.chartName
+    );
+    console.log("test", chartExist);
+    if (!chartExist) {
+      setSelectedChart([...selectedCharts, data]);
+    }
+  };
+
+  // delete on change handler
+  const handelChangeDelete = (e) => {
+    setDeleteItem(e.target.value);
+  };
+
+  // delete function
+  const handleDelete = (e) => {
+    if (deleteItem === "deleteAll") {
+      console.log("Test Delete");
+      setSelectedChart([]);
+    } else {
+      const updatedCharts = selectedCharts.filter(
+        (obj) => obj.chartName !== deleteItem
+      );
+      setSelectedChart(updatedCharts);
+    }
+  };
+
   return (
-    <div style={{ marginLeft: "50px" }}>
-      <h1>hello</h1>
-      <BarChart chartData={userData} />
-      <br />
-      <br />
-      <br />
-      <LineChart />
-      <br />
-      <br />
-      <br />
-      <PieChart />
-      <br />
-      <br />
-      <br />
-      <ScatterChart />
+    <div className="container">
+      <div style={{ marginLeft: "50px" }}>
+        <div className="row mb-5">
+          {/* chart add form  */}
+          <div className="col-6">
+            <ChartShowForm onSubmit={onSubmit} />
+          </div>
+          {/* delete form  */}
+          <div className="col-6">
+            <DeleteForm
+              handelChangeDelete={handelChangeDelete}
+              handleDelete={handleDelete}
+            />
+          </div>
+        </div>
+
+        {selectedCharts.map((chart, index) => {
+          let ChartComponent = null;
+
+          switch (chart.chartName) {
+            case "BarChart":
+              ChartComponent = <BarChart title={chart.title} key={index} />;
+              break;
+            case "LineChart":
+              ChartComponent = <LineChart title={chart.title} key={index} />;
+              break;
+            case "PieChart":
+              ChartComponent = <PieChart title={chart.title} key={index} />;
+              break;
+            case "ScatterChart":
+              ChartComponent = <ScatterChart title={chart.title} key={index} />;
+              break;
+            default:
+              break;
+          }
+
+          return ChartComponent;
+        })}
+      </div>
     </div>
   );
 };

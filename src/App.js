@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +21,7 @@ const App = () => {
   return (
     <div className="App">
       <Router>
+        <NavBar />
         <Routes>
           <Route
             path="/"
