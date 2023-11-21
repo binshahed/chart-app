@@ -14,7 +14,7 @@ const ChartShowForm = ({ onSubmit }) => {
             {...register("title")}
             type="text"
             className="form-control"
-            id="title"
+            placeholder="Please Enter Title"
           />
         </div>
 
@@ -27,7 +27,9 @@ const ChartShowForm = ({ onSubmit }) => {
             className="form-select"
             id="chartName"
           >
-            <option value="">Select A Chart</option>
+            <option value="" selected>
+              Select A Chart
+            </option>
             <option value="BarChart">Bar Chart</option>
             <option value="LineChart">Line Chart</option>
             <option value="PieChart">Pie Chart</option>

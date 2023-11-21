@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import {
@@ -14,6 +14,23 @@ import NavBar from "./components/NavBar";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    // Check if a token is present in local storage
+    const token = localStorage.getItem("token");
+    if (token) {
+      // If a token is present, consider the user as logged in
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Remove the token from local storage
+    localStorage.removeItem("token");
+
+    // Set the isLoggedIn state to false
+    setIsLoggedIn(false);
+  };
+
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
@@ -21,7 +38,7 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <NavBar />
+        {isLoggedIn && <NavBar handleLogout={handleLogout} />}
         <Routes>
           <Route
             path="/"

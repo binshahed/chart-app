@@ -26,7 +26,7 @@ function BarChart({ title }) {
   return (
     <div className="chart-common-style ">
       <h4 className="text-center ">{title}</h4>
-      <Bar data={userData} />;
+      <Bar data={userData} />
     </div>
   );
 }

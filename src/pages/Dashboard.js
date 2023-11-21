@@ -13,12 +13,16 @@ const Dashboard = () => {
 
   // chart add function
   const onSubmit = (data) => {
-    const chartExist = selectedCharts.find(
-      (ct) => ct.chartName === data.chartName
-    );
-    console.log("test", chartExist);
-    if (!chartExist) {
-      setSelectedChart([...selectedCharts, data]);
+    if (data.chartName !== "" && data.title !== "") {
+      const chartExist = selectedCharts.find(
+        (ct) => ct.chartName === data.chartName
+      );
+      console.log("test", chartExist);
+      if (!chartExist) {
+        setSelectedChart([...selectedCharts, data]);
+      }
+    } else {
+      alert("Please enter title and select a chart.");
     }
   };
 
@@ -42,7 +46,7 @@ const Dashboard = () => {
 
   return (
     <div className="container">
-      <div style={{ marginLeft: "50px" }}>
+      <div>
         <div className="row mb-5">
           {/* chart add form  */}
           <div className="col-6">
@@ -50,16 +54,18 @@ const Dashboard = () => {
           </div>
           {/* delete form  */}
           <div className="col-6">
-            <DeleteForm
-              handelChangeDelete={handelChangeDelete}
-              handleDelete={handleDelete}
-            />
+            {selectedCharts.length > 0 && (
+              <DeleteForm
+                selectedCharts={selectedCharts}
+                handelChangeDelete={handelChangeDelete}
+                handleDelete={handleDelete}
+              />
+            )}
           </div>
         </div>
 
         {selectedCharts.map((chart, index) => {
           let ChartComponent = null;
-
           switch (chart.chartName) {
             case "BarChart":
               ChartComponent = <BarChart title={chart.title} key={index} />;
